@@ -40,12 +40,9 @@ class PostController extends Controller
             'title' => 'required|min:3',
             'content' => 'required|min:10',
         ]);
-        Post::create([
-            'title' => $request->title,
-            'content' => $request->content,
-        ]);
+        $post=Post::create($request->all());
 
-        return redirect()->route('post.index');
+        return redirect()->route('post.show', ['post'=>$post])->withSuccess('Create post success');
     }
 
     /**
@@ -67,7 +64,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('posts.edit',['post'=>$post]);
     }
 
     /**
@@ -79,7 +76,12 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required|min:3',
+            'content' => 'required|min:10',
+        ]);
+        $post->update($request->all());
+        return redirect()->route('post.show', $post->id)->withSuccess('Update post success');
     }
 
     /**
@@ -91,6 +93,6 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        return redirect()->route('post.index');
+        return redirect()->route('post.index')->withSuccess('Delete post success');
     }
 }

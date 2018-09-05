@@ -11,10 +11,20 @@
 		<a href="{{ route('post.create') }}" class="btn btn-secondary">Create post</a>
 	</div>
 	<div class="container mt-5">
+		 @if(\Illuminate\Support\Facades\Session::has('success'))
+	        <div class="alert alert-success">
+	            {{\Illuminate\Support\Facades\Session::get('success')}}
+	        </div>
+    	@endif
+	    @if(\Illuminate\Support\Facades\Session::has('error'))
+	        <div class="alert alert-warning">
+	            {{\Illuminate\Support\Facades\Session::get('error')}}
+	        </div>
+	    @endif
 		@yield('content')
 	</div>
 	<div class="bg-dark text-white p-4 text-center">
-		All rights reserved yourname {{date('Y')}}.
+		All rights reserved yourname {{date('d-m-Y')}}.
 	</div>
 </body>
 </html>
