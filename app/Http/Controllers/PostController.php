@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware('auth')->except(['index', 'show']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +18,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderBy('id','desc')->paginate(10);
+        $posts = Post::orderBy('id','desc')->paginate(5);
         return view('posts.index', ['posts'=>$posts]);
     }
 
@@ -64,7 +68,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('posts.edit',['post'=>$post]);
+        return view('posts.edit', compact('post'));
     }
 
     /**
